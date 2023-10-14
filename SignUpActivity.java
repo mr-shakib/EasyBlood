@@ -6,14 +6,19 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,10 +34,14 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText signup_name, signupEmail, signupPassword,signupPhone,blood_group,location;
     private Button signupButton;
     private Button signupLoginButton;
+    private Spinner bloodGroupSpinner;
+    String[] UserLocation;
+    private Spinner locationSpinner;
 
     FirebaseDatabase database;
     DatabaseReference reference;
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +54,15 @@ public class SignUpActivity extends AppCompatActivity {
         signupButton = findViewById(R.id.signup_button);
         signupLoginButton = findViewById(R.id.signup_login_button);
         signup_name = findViewById(R.id.signup_name);
-        blood_group = findViewById(R.id.blood_group);
-        location = findViewById(R.id.location);
+        bloodGroupSpinner = findViewById(R.id.blood_groupSpinner);
+        String[] bloodGroups = {"A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"};
+        ArrayAdapter<String> bloodGroupAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, bloodGroups);
+        bloodGroupSpinner.setAdapter(bloodGroupAdapter);
 
-
-
+        locationSpinner = findViewById(R.id.locationSpinner);
+        UserLocation = getResources().getStringArray(R.array.userLocation);
+        ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, UserLocation);
+        locationSpinner.setAdapter(locationAdapter);
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
